@@ -9,7 +9,7 @@ import { Task, Task as TaskInterface } from 'src/app/@types/Tasks.types';
 export class TaskItemComponent implements OnInit {
   @Input() task!: TaskInterface;
 
-  @Output() taskClick = new EventEmitter();
+  @Output() taskClick: EventEmitter<TaskInterface> = new EventEmitter();
   @Output() onDeleteTask: EventEmitter<TaskInterface> = new EventEmitter();
 
   constructor() {}

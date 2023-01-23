@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Task, Task as TaskInterface } from 'src/app/@types/Tasks.types';
+import { Task as TaskInterface } from 'src/app/@types/Tasks.types';
 import { TaskService } from 'src/app/services/task.service';
 
 @Component({
@@ -23,6 +23,12 @@ export class TasksComponent implements OnInit {
   }
 
   toggleTask(task: TaskInterface) {
+    task.reminder = !task.reminder;
     this.taskService.updateTask(task).subscribe();
+  }
+
+  addTask(task: TaskInterface) {
+    console.log(task);
+    this.taskService.createTask(task).subscribe((response) => this.ngOnInit());
   }
 }

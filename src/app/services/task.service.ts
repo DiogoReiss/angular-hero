@@ -28,10 +28,10 @@ export class TaskService {
 
   updateTask(task: TaskInterface): Observable<TaskInterface> {
     const url = `${this.apiUrl}/${task.id}`;
-    const reminder: TaskInterface = {
-      ...task,
-      reminder: !task.reminder,
-    };
-    return this.http.put<TaskInterface>(url, reminder, httpOptions);
+    return this.http.put<TaskInterface>(url, task);
+  }
+
+  createTask(task: TaskInterface): Observable<TaskInterface> {
+    return this.http.post<TaskInterface>(this.apiUrl, task);
   }
 }
