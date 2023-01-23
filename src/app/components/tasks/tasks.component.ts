@@ -28,7 +28,6 @@ export class TasksComponent implements OnInit {
   }
 
   addTask(task: TaskInterface) {
-    console.log(task);
     this.taskService.createTask(task).subscribe((response) => this.ngOnInit());
   }
 }
