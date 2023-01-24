@@ -1,0 +1,9 @@
+<section class="task-info-block">
+  <h2>{{ task.id }} - {{ task.text }}</h2>
+  <p>{{ task.day }}</p>
+  <div>
+    <p>
+      Reminder set as <strong [ngStyle]="{'color': task.reminder ? 'green' : 'red' }">{{ task.reminder ? 'ON' : 'OFF'}}</strong>
+    </p>
+  </div>
+</section>

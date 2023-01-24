@@ -1,4 +1,4 @@
 <header>
-  <h1>Task Reader</h1>
-  <app-button *ngIf="hasRoute('')" color="{{showAddTask ? 'red' : 'green'}}" text="{{showAddTask ? 'Close' : 'Add'}}" (btnClick)="toggleAddTask()"></app-button>
+  <h1 routerLink="/">Task Reader</h1>
+  <app-button *ngIf="hasRoute('/')" color="{{showAddTask ? 'red' : 'green'}}" text="{{showAddTask ? 'Close' : 'Add'}}" (btnClick)="toggleAddTask()"></app-button>
 </header>

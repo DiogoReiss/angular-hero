@@ -17,6 +17,11 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
+  getTaskByID(task: TaskInterface['id']): Observable<TaskInterface[]> {
+    let url = `${this.apiUrl}?id=${task}`;
+    return this.http.get<TaskInterface[]>(url, httpOptions);
+  }
+
   getTasks(): Observable<TaskInterface[]> {
     return this.http.get<TaskInterface[]>(this.apiUrl);
   }
