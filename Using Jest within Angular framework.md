@@ -45,17 +45,18 @@ references: - [Unit testing angular applications with jest](https://izifortune.c
 1. Before we start testing, remove any test framwork or library from your project.
 1. Now you already can start doing some tests :)
    - to write down your test you have to create a .spec.ts file, this ".spec.something-here" defines thats a test declaration file.
-   ```ts
-   // default.component.spec.ts
-   describe('test scenario', () => {
-   	let something = true;
-   	...
-   	it('test case', () => {
-   		expect(something).toBeTruthy();
-   		...
-   	})
-   })
-   ```
+
+```ts
+	// default.component.spec.ts
+	describe('test scenario', () => {
+		let something = true;
+		...
+		it('test case', () => {
+			expect(something).toBeTruthy();
+			...
+		})
+	})
+```
 
 ---
 
@@ -85,18 +86,15 @@ important links
   ```
   Lets keep in mind that with the HttpClient there's no need to configure mockBackend :)
 
-1. First thing we have to configure TestBed to load our service with HttpClientTestingModule.
-   ````ts
-   	beforeEach(() => {
-   		TestBed.configureTestingModule({
-   			imports: [ HttpClientTestingModule],
-   			providers: [
-   				TaskService
-   			]
-   		})
-   	})
-   	```
-   ````
+2. First thing we have to configure TestBed to load our service with HttpClientTestingModule.
+   ```ts
+   beforeEach(() => {
+     TestBed.configureTestingModule({
+       imports: [HttpClientTestingModule],
+       providers: [TaskService],
+     });
+   });
+   ```
 
 - After TestBed is configured we now can get our service to test and a mocking http controller from the injector
   ```ts
@@ -109,34 +107,34 @@ important links
   ));
   ```
 
-2. Now we can proceed with our tests.
+1. Now we can proceed with our tests.
 
-   ```ts
-   it("Should get a specific task using the ID as reference", fakeAsync(() => {
-     const requestID = 2;
-     const mockTaskResponse = [
-       {
-         id: 2,
-         text: "Meeting at School",
-         day: "May 6th at 1:30pm",
-         reminder: true,
-       },
-     ];
+```ts
+it("Should get a specific task using the ID as reference", fakeAsync(() => {
+  const requestID = 2;
+  const mockTaskResponse = [
+    {
+      id: 2,
+      text: "Meeting at School",
+      day: "May 6th at 1:30pm",
+      reminder: true,
+    },
+  ];
 
-     service.getTaskByID(requestID).subscribe((response) => {
-       expect(response.length).toBe(1);
-       expect(response[0].id).toBe(2);
-       expect(response[0].text).toBe("Meeting at School");
-     });
-     tick();
-     const req = httpMock.expectOne("http://localhost:5000/tasks");
+  service.getTaskByID(requestID).subscribe((response) => {
+    expect(response.length).toBe(1);
+    expect(response[0].id).toBe(2);
+    expect(response[0].text).toBe("Meeting at School");
+  });
+  tick();
+  const req = httpMock.expectOne("http://localhost:5000/tasks");
 
-     req.flush(mockTaskResponse);
-     httpMock.verify();
-   }));
-   ```
+  req.flush(mockTaskResponse);
+  httpMock.verify();
+}));
+```
 
-   ***
+---
 
 #### Lets test our component 📦
 
@@ -149,13 +147,14 @@ important links
 ##### Lets begin with the tests
 
 1. If you already opened our component archive you know it's a simple component structure, we have two @input properties that we're using to modify some details on our button component like the actual background color and his inner text.
-   ```js
-   ...
-   @Input() color!: string;
-   @Input() text!: string;
-   ...
-   }
-   ```
+
+```js
+	...
+	@Input() color!: string;
+	@Input() text!: string;
+	...
+	}
+```
 
 - and along with this two properties we have an output propertie too! It's a simple btnClick event that we will call.
 
@@ -173,7 +172,7 @@ important links
 	  }
 ```
 
-2. So, I believe that we already know how to properly create a test file and te meaning of ==fixture==, the only meaningful difference between services tests and components/directives tests, we can write down our test cases :D.
+1. So, I believe that we already know how to properly create a test file and te meaning of ==fixture==, the only meaningfull difference between services tests and components/directives tests, we can write down our test cases :D.
    - First, we need to init our test environment and configure our testing module inside BeforeEach.
 
 ```ts
@@ -199,9 +198,29 @@ beforeEach(waitForAsync(async () => {
 }));
 ```
 
-- Have you noted that I'm setting the component color and text inside the beforeEach configuration? This makes sense in that case because we will set this properties in the html tag like `<app-button color="{{ color }}">{{ text }}</app-button>`, if was something that we change in some way like using event or functions maybe this is not the best aproach to follow.
+- Have you noted that I'm setting the component color and text inside the beforeEach configuration? This makes sense in that case because we will set this properties in the html tag like `<app-button color="{{ color }}">{{ text }}</app-button>`, if was something that we change in some way like using event or functions maybe this is not the best aproach to follow. Another example without setting the input properties on beforeEach():
 
-3. Now that we have our test enviroment and testing module all configured, lets create the test cases.
+```js
+	... // imagine that the beforeEach() already don't have the propertiers
+		// setted
+
+		// in our test case we'll have to set the value and dispatch the "input"
+		// event.
+		...
+		it('should bla bla bla', () => {
+			// setting new value to the propertie
+			component.inputPropertie = "value";
+
+			// dispatching the input event.
+			component.dispatchEvent(new Event("input"));
+
+			component.detectChanges(); // updating the display binding
+
+			expect(something).toBe(component.inputPropertie);
+		})
+```
+
+1. Now that we have our test enviroment and testing module all configured, lets create the test cases.
 
 - It's nice to know that our component exists, right?
 
